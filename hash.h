@@ -1,13 +1,7 @@
 //
 // Created by minht on 9/12/2019.
 //
-/*
- * Functions that are done:
- * hash
- * contains
- * get_prime
- * find_pos
- */
+
 #ifndef _HASH_H
 #define _HASH_H
 
@@ -52,7 +46,6 @@ public:
     // false if the specified key is not in the hash table.
     bool remove(const std::string &key);
 
-    int get_filled();
 private:
 
     // Each item in the hash table contains:

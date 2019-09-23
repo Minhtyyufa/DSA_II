@@ -6,6 +6,7 @@
 #include <iostream>
 #include <exception>
 
+// Constructor for the hash_table
 hash_table::hash_table(int size)
 {
     unsigned int new_size = get_prime(size);
@@ -15,18 +16,21 @@ hash_table::hash_table(int size)
 
 }
 
-int hash_table::insert(const std::string &key, void *pv) {
-
-
+// Inserts a key into the hash_table
+int hash_table::insert(const std::string &key, void *pv)
+{
+    // if too many items, rehash
     filled ++;
     if(filled > capacity/2) {
         if (!rehash())
             return 2;
     }
 
+    // Linear probe to find the proper index. If it detects too much clustering (1/4 of the capacity), it rehashes
     while(1) {
         int index = hash(key);
         int rel_index = index;
+
         for (int offset = 0; offset < capacity / 4; offset++) {
             if (data[rel_index].isOccupied && !data[rel_index].isDeleted && data[rel_index].key == key)
                 return 1;
@@ -43,14 +47,13 @@ int hash_table::insert(const std::string &key, void *pv) {
             return 2;
     }
 
-
-
 }
-
+// Finds if key is in hash_table
 bool hash_table::contains(const std::string &key) {
     return (find_pos(key) != -1);
 }
 
+// Hash function based on the textbook
 int hash_table::hash(const std::string &key)
 {
     unsigned int hash_val = 0;
@@ -61,6 +64,7 @@ int hash_table::hash(const std::string &key)
     return hash_val % capacity;
 }
 
+// Returns a number from a list of "good" primes for a hash table. Taken from https://planetmath.org/goodhashtableprimes
 unsigned int hash_table::get_prime(int size)
 {
     unsigned int primes[26] = {53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157,
@@ -74,6 +78,7 @@ unsigned int hash_table::get_prime(int size)
     return primes[25];
 }
 
+// Finds index of key in hash table
 int hash_table::find_pos(const std::string &key)
 {
     int index = hash(key);
@@ -89,6 +94,7 @@ int hash_table::find_pos(const std::string &key)
     }
 }
 
+// Lazily deletes an element in the hash table if key exists in it.
 bool hash_table::remove(const std::string &key)
 {
     int index = find_pos(key);
@@ -100,6 +106,7 @@ bool hash_table::remove(const std::string &key)
     }
 }
 
+// rehashes hash table
 bool hash_table::rehash()
 {
     int new_cap = get_prime(capacity);
@@ -131,6 +138,8 @@ bool hash_table::rehash()
         return true;
     }
 }
+
+// Gets a pointer to a specified key
 void *hash_table::get_pointer(const std::string &key, bool *b)
 {
     int index = find_pos(key);
@@ -142,9 +151,7 @@ void *hash_table::get_pointer(const std::string &key, bool *b)
         return data[index].pv;
 }
 
-// Set the pointer associated with the specified key.
-// Returns 0 on success,
-// 1 if the key does not exist in the hash table.
+// sets the value of a specified key
 int hash_table::set_pointer(const std::string &key, void *pv)
 {
     int index = find_pos(key);
@@ -156,10 +163,6 @@ int hash_table::set_pointer(const std::string &key, void *pv)
         return 0;
     }
 
-}
-
-int hash_table::get_filled() {
-    return filled;
 }
 
 
