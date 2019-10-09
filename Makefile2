@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 useHeap.exe: useHeap.o heap.o hash.o
 	g++ -o useHeap.exe useHeap.o heap.o hash.o
 
@@ -12,6 +13,19 @@ hash.o: ./sources/hash.cpp ./headers/hash.h
 
 debug:
 	g++ -g -o useHeapDebug.exe useHeap.cpp heap.cpp hash.cpp
+=======
+spell.exe: spellcheck.o hash.o
+	g++ -o spell.exe spellcheck.o hash.o
+
+spellcheck.o: spellcheck.cpp hash.h
+	g++ -c spellcheck.cpp
+
+hash.o: hash.cpp hash.h
+	g++ -c hash.cpp
+
+debug:
+	g++ -g -o spellDebug.exe spellcheck.cpp hash.cpp
+>>>>>>> 2c601f2da469a9289b87418379608e9a24642167
 
 clean:
 	rm -f *.exe *.o *.stackdump *~
@@ -20,4 +34,8 @@ backup:
 	test -d backups || mkdir backups
 	cp *.cpp backups
 	cp *.h backups
+<<<<<<< HEAD
 	cp Makefile backups
+=======
+
+>>>>>>> 2c601f2da469a9289b87418379608e9a24642167
