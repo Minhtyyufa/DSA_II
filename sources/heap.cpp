@@ -17,8 +17,8 @@ heap::heap(int cap):mapping(cap*2){
 }
 void heap::percolate_down(int pos_cur) {
     int child;
-    node copy = std::move(data[pos_cur]);
 
+    node copy = std::move(data[pos_cur]);
     for(; pos_cur * 2<= filled; pos_cur = child)
     {
         child = pos_cur * 2;
@@ -27,7 +27,7 @@ void heap::percolate_down(int pos_cur) {
         if(data[child].key < copy.key) {
 
             data[pos_cur] = std::move(data[child]);
-            mapping.set_pointer(data[child].id, &data[pos_cur]);
+            mapping.set_pointer(data[pos_cur].id, &data[pos_cur]);
         }
         else
             break;
@@ -44,7 +44,9 @@ void heap::percolate_up(int pos_cur)
     data[0] = std::move(copy);
     for(; tb_inserted.key < data[pos_cur/2].key; pos_cur/=2 ) {
         data[pos_cur] = std::move(data[pos_cur / 2]);
-        mapping.set_pointer(data[pos_cur].id, &data[pos_cur/2]);
+        //mapping.set_pointer(data[pos_cur].id, &data[pos_cur/2]);
+//        mapping.set_pointer(data[pos_cur].id, &data[pos_cur/2]);
+        mapping.set_pointer(data[pos_cur].id, &data[pos_cur]);
     }
     data[pos_cur] = std::move(data[0]);
     mapping.set_pointer(data[pos_cur].id, &data[pos_cur]);
@@ -111,7 +113,6 @@ int heap::setKey(const std::string &id, int key)
         else if(key < pn->key)
         {
             int cur_pos = get_pos(pn);
-
             pn->key = key;
             percolate_up(cur_pos);
         }
@@ -143,7 +144,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData)
         if(pKey != nullptr)
             *pKey = data[1].key;
         if(ppData != nullptr)
-            *(static_cast<void **> (ppData)) = data[1].p_data;
+            *(static_cast<void **>(ppData)) = data[1].p_data;
 
         mapping.remove(data[1].id);
         data[1] = std::move(data[filled--]);

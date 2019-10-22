@@ -41,7 +41,9 @@ int main()
     string stringTmp;
     int key, id;
     int retVal;
-
+    //comment out for actual cases
+    freopen("../test_inputs/test1.txt","r",stdin);
+    freopen("../o_files/test1_out.txt","w", stdout);
     // Have user choose capacity for binary heap
     getInteger("Choose a capacity for the binary heap: ", capacity);
 
